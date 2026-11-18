@@ -52,20 +52,22 @@ def parse_sr(text):
     if not x or 'brez vsebine' in x.lower():
         return []
 
-    # Split multiple alternatives/blocks first. Each block may use a different markup style.
-    blocks = re.split(r'\s*sklop\s+\d+:\s*', x, flags=re.I)
-    blocks = [b.strip(' .') for b in blocks if b.strip(' .')]
-    items = []
-
-    # Spoken prefix generated for accessibility, e.g. "Ponedeljek ... šesta ura od ... ."
+    # Remove the spoken day/date/hour prefix before splitting into multiple timetable blocks.
+    # Doing this first is important for entries such as:
+    # "Torek ... predura ... sklop 1: ... sklop 2: ...".
     prefix = re.compile(
         r'^(?:Ponedeljek|Torek|Sreda|Četrtek|Petek)\s+.*?\.\s*'
         r'(?:(?:predura|prva ura|druga ura|tretja ura|četrta ura|peta ura|šesta ura|sedma ura|osma ura|deveta ura)\s+od\s+.*?\.\s*)?',
         re.I,
     )
+    x = prefix.sub('', x).strip(' .')
+
+    # Split multiple alternatives/blocks after the common prefix has been removed.
+    blocks = re.split(r'\s*sklop\s+\d+:\s*', x, flags=re.I)
+    blocks = [b.strip(' .') for b in blocks if b.strip(' .')]
+    items = []
 
     for b in blocks:
-        b = prefix.sub('', b).strip(' .')
         # Labels used by accessibility text are not part of the subject.
         b = re.sub(r'^(?:interesna dejavnost|dogodek)\.\s*', '', b, flags=re.I)
 
