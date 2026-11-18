@@ -1,0 +1,19 @@
+# Local/private configuration
+config.json
+
+# Generated timetable data
+data/
+
+# Python cache / bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# Local virtual environments
+.venv/
+venv/
+
+# Editor / OS files
+.vscode/
+.idea/
+.DS_Store

@@ -1,0 +1,16 @@
+{
+  "students": [
+    {
+      "name": "Otrok",
+      "school_id": "YOUR_SCHOOL_ID",
+      "class_id": "YOUR_CLASS_ID",
+      "student_id": "YOUR_STUDENT_ID",
+      "enabled": true
+    }
+  ],
+  "output": {
+    "directory": "data",
+    "current_week": true,
+    "next_week": true
+  }
+}
